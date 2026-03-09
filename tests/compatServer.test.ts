@@ -32,6 +32,23 @@ async function startServer() {
 }
 
 describe('compatibility server', () => {
+  test('serves a browser-friendly root route', async () => {
+    const { baseUrl } = await startServer();
+
+    const response = await fetch(baseUrl, {
+      headers: {
+        accept: 'text/html'
+      }
+    });
+
+    expect(response.status).toBe(200);
+    expect(response.headers.get('content-type')).toContain('text/html');
+
+    const payload = await response.text();
+    expect(payload).toContain('Florida Fish Scanner Compat');
+    expect(payload).toContain('/v1/invoke');
+  });
+
   test('keeps /v1/invoke available for open capabilities', async () => {
     const { baseUrl } = await startServer();
 

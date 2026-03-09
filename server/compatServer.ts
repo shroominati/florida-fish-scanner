@@ -16,6 +16,12 @@ function json(response: ServerResponse, statusCode: number, payload: unknown) {
   response.end(JSON.stringify(payload, null, 2));
 }
 
+function html(response: ServerResponse, statusCode: number, body: string) {
+  response.statusCode = statusCode;
+  response.setHeader('content-type', 'text/html; charset=utf-8');
+  response.end(body);
+}
+
 async function readJsonBody<T>(request: IncomingMessage): Promise<T | undefined> {
   const chunks: Buffer[] = [];
 
@@ -77,6 +83,92 @@ export function createCompatibilityServer(state = createCompatibilityState()) {
     const url = new URL(request.url ?? '/', 'http://127.0.0.1');
     const authority = authorityFromRequest(request);
     const clientId = clientIdFromRequest(request);
+
+    if (method === 'GET' && url.pathname === '/') {
+      const payload = {
+        ok: true,
+        service: 'florida-fish-scanner-compat',
+        message: 'Compatibility server is running.',
+        routes: [
+          '/health',
+          '/v1/capabilities',
+          '/v1/grants/mint',
+          '/v1/resume/web/grants/mint',
+          '/v1/resume/telegram/grants/mint',
+          '/v1/invoke',
+          '/v1/audit',
+          '/v1/history'
+        ]
+      };
+      const accept = request.headers.accept ?? '';
+
+      if (typeof accept === 'string' && accept.includes('text/html')) {
+        return html(
+          response,
+          200,
+          `<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Florida Fish Scanner Compat</title>
+    <style>
+      body {
+        margin: 0;
+        padding: 24px;
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+        background: #08131a;
+        color: #f2f7f9;
+      }
+      main {
+        max-width: 760px;
+        margin: 0 auto;
+      }
+      h1 {
+        margin-bottom: 8px;
+      }
+      p {
+        color: #c8d6dd;
+      }
+      code {
+        background: #10232d;
+        padding: 2px 6px;
+        border-radius: 6px;
+      }
+      ul {
+        padding-left: 20px;
+      }
+      a {
+        color: #7dd3fc;
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <h1>Florida Fish Scanner Compat</h1>
+      <p>Compatibility server is running.</p>
+      <p>Available routes:</p>
+      <ul>
+        <li><a href="/health"><code>/health</code></a></li>
+        <li><a href="/v1/capabilities"><code>/v1/capabilities</code></a></li>
+        <li><a href="/v1/audit"><code>/v1/audit</code></a></li>
+        <li><a href="/v1/history"><code>/v1/history</code></a></li>
+      </ul>
+      <p>POST endpoints:</p>
+      <ul>
+        <li><code>/v1/grants/mint</code></li>
+        <li><code>/v1/resume/web/grants/mint</code></li>
+        <li><code>/v1/resume/telegram/grants/mint</code></li>
+        <li><code>/v1/invoke</code></li>
+      </ul>
+    </main>
+  </body>
+</html>`
+        );
+      }
+
+      return json(response, 200, payload);
+    }
 
     if (method === 'GET' && url.pathname === '/health') {
       return json(response, 200, { ok: true });
