@@ -27,6 +27,66 @@ interface ScanScreenProps {
   onContinue: () => void;
 }
 
+async function getWebImageDimensions(uri: string): Promise<{ width: number; height: number }> {
+  return await new Promise((resolve, reject) => {
+    const image = new window.Image();
+    image.onload = () => {
+      resolve({
+        width: image.naturalWidth || image.width || 1280,
+        height: image.naturalHeight || image.height || 720
+      });
+    };
+    image.onerror = () => reject(new Error('Unable to read image dimensions.'));
+    image.src = uri;
+  });
+}
+
+async function pickWebPhoto(captureHint?: 'environment'): Promise<ScanPhotoAsset | undefined> {
+  if (Platform.OS !== 'web' || typeof document === 'undefined') {
+    return undefined;
+  }
+
+  return await new Promise((resolve) => {
+    const input = document.createElement('input');
+    input.type = 'file';
+    input.accept = 'image/*';
+
+    if (captureHint) {
+      input.setAttribute('capture', captureHint);
+    }
+
+    input.onchange = async () => {
+      const file = input.files?.[0];
+
+      if (!file) {
+        resolve(undefined);
+        return;
+      }
+
+      const uri = URL.createObjectURL(file);
+
+      try {
+        const dimensions = await getWebImageDimensions(uri);
+        resolve({
+          uri,
+          width: dimensions.width,
+          height: dimensions.height,
+          fileSizeBytes: file.size
+        });
+      } catch {
+        resolve({
+          uri,
+          width: 1280,
+          height: 720,
+          fileSizeBytes: file.size
+        });
+      }
+    };
+
+    input.click();
+  });
+}
+
 export function ScanScreen({
   deviceLocation,
   analysis,
@@ -41,7 +101,7 @@ export function ScanScreen({
   const [permission, requestPermission] = useCameraPermissions();
   const [working, setWorking] = useState(false);
 
-  const capture = async (fallback?: Partial<ScanPhotoAsset>) => {
+  const capture = async (fallback?: Partial<ScanPhotoAsset>, webCaptureHint?: 'environment') => {
     setWorking(true);
     const location = (await onRefreshLocation()) ?? deviceLocation;
 
@@ -61,6 +121,16 @@ export function ScanScreen({
     }
 
     try {
+      if (Platform.OS === 'web') {
+        const webPhoto = await pickWebPhoto(webCaptureHint);
+
+        if (webPhoto) {
+          onCapture(webPhoto, location);
+        }
+
+        return;
+      }
+
       const photo = await cameraRef.current?.takePictureAsync({
         quality: 0.7,
         exif: true,
@@ -118,7 +188,15 @@ export function ScanScreen({
         <Text style={styles.helpText}>• Avoid glare and let the camera focus before capture.</Text>
       </InfoCard>
 
-      {Platform.OS !== 'web' && permission?.granted ? (
+      {Platform.OS === 'web' ? (
+        <InfoCard
+          title="Browser Photo Capture"
+          subtitle="On the web build, use your device camera or photo library to pick a fish image, then the same scan review and measurement flow continues."
+        >
+          <Text style={styles.helpText}>• On a phone browser, `Use Phone Camera` should open the rear camera when supported.</Text>
+          <Text style={styles.helpText}>• On desktop, `Upload Photo` lets you choose an existing fish image.</Text>
+        </InfoCard>
+      ) : permission?.granted ? (
         <View style={styles.cameraWrap}>
           <CameraView ref={cameraRef} style={styles.camera} facing="back" />
           <View style={styles.frameGuide} pointerEvents="none">
@@ -142,13 +220,33 @@ export function ScanScreen({
       )}
 
       <ButtonRow>
-        <PrimaryButton
-          label={working || isAnalyzing ? 'Analyzing...' : 'Capture Frame'}
-          onPress={() => {
-            void capture();
-          }}
-          disabled={!ready}
-        />
+        {Platform.OS === 'web' ? (
+          <>
+            <PrimaryButton
+              label={working || isAnalyzing ? 'Analyzing...' : 'Use Phone Camera'}
+              onPress={() => {
+                void capture(undefined, 'environment');
+              }}
+              disabled={!ready}
+            />
+            <PrimaryButton
+              label="Upload Photo"
+              onPress={() => {
+                void capture();
+              }}
+              variant="secondary"
+              disabled={!ready}
+            />
+          </>
+        ) : (
+          <PrimaryButton
+            label={working || isAnalyzing ? 'Analyzing...' : 'Capture Frame'}
+            onPress={() => {
+              void capture();
+            }}
+            disabled={!ready}
+          />
+        )}
         <PrimaryButton
           label="Demo Fish"
           onPress={() => {

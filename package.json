@@ -4,15 +4,16 @@
   "private": true,
   "main": "index.ts",
   "scripts": {
-  "start": "expo start",
-  "android": "expo start --android",
-  "ios": "expo start --ios",
-  "web": "expo start --web",
-  "compat:server": "tsx server/index.ts",
-  "typecheck": "tsc --noEmit",
-  "test": "vitest run",
-  "test:watch": "vitest"
-},
+    "start": "expo start",
+    "android": "expo start --android",
+    "ios": "expo start --ios",
+    "web": "expo start --web",
+    "build:web": "expo export --platform web",
+    "compat:server": "tsx server/start.ts",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "test:watch": "vitest"
+  },
   "dependencies": {
     "@react-native-async-storage/async-storage": "^3.0.1",
     "expo": "~55.0.5",
@@ -21,7 +22,9 @@
     "expo-location": "~55.1.2",
     "expo-status-bar": "~55.0.4",
     "react": "19.2.0",
+    "react-dom": "19.2.0",
     "react-native": "0.83.2",
+    "react-native-web": "^0.21.0",
     "tsx": "^4.21.0"
   },
   "devDependencies": {

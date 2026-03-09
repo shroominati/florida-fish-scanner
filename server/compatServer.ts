@@ -1,4 +1,6 @@
 import { createServer, type IncomingMessage, type ServerResponse } from 'node:http';
+import { readFile, stat } from 'node:fs/promises';
+import { extname, join, normalize, resolve } from 'node:path';
 import { URL } from 'node:url';
 
 import { capabilityRegistry, getCapability } from './capabilities';
@@ -20,6 +22,73 @@ function html(response: ServerResponse, statusCode: number, body: string) {
   response.statusCode = statusCode;
   response.setHeader('content-type', 'text/html; charset=utf-8');
   response.end(body);
+}
+
+const staticRoot = resolve(process.cwd(), 'dist');
+
+const contentTypes: Record<string, string> = {
+  '.css': 'text/css; charset=utf-8',
+  '.html': 'text/html; charset=utf-8',
+  '.ico': 'image/x-icon',
+  '.js': 'text/javascript; charset=utf-8',
+  '.json': 'application/json; charset=utf-8',
+  '.map': 'application/json; charset=utf-8',
+  '.png': 'image/png',
+  '.svg': 'image/svg+xml; charset=utf-8',
+  '.txt': 'text/plain; charset=utf-8',
+  '.webp': 'image/webp',
+  '.woff': 'font/woff',
+  '.woff2': 'font/woff2'
+};
+
+async function fileExists(path: string): Promise<boolean> {
+  try {
+    await stat(path);
+    return true;
+  } catch {
+    return false;
+  }
+}
+
+function canServeStatic(pathname: string): boolean {
+  return pathname === '/' || (!pathname.startsWith('/v1/') && pathname !== '/health' && pathname !== '/__compat');
+}
+
+async function tryServeStaticApp(pathname: string, response: ServerResponse): Promise<boolean> {
+  if (!(await fileExists(staticRoot))) {
+    return false;
+  }
+
+  const normalizedPath = pathname === '/' ? '/index.html' : pathname;
+  const requestedPath = resolve(join(staticRoot, normalize(normalizedPath)));
+
+  if (!requestedPath.startsWith(staticRoot)) {
+    response.statusCode = 403;
+    response.end('Forbidden');
+    return true;
+  }
+
+  let filePath = requestedPath;
+  const hasExtension = extname(filePath).length > 0;
+
+  if (!(await fileExists(filePath))) {
+    if (hasExtension) {
+      return false;
+    }
+
+    filePath = join(staticRoot, 'index.html');
+
+    if (!(await fileExists(filePath))) {
+      return false;
+    }
+  }
+
+  const body = await readFile(filePath);
+  const extension = extname(filePath).toLowerCase();
+  response.statusCode = 200;
+  response.setHeader('content-type', contentTypes[extension] ?? 'application/octet-stream');
+  response.end(body);
+  return true;
 }
 
 async function readJsonBody<T>(request: IncomingMessage): Promise<T | undefined> {
@@ -84,12 +153,22 @@ export function createCompatibilityServer(state = createCompatibilityState()) {
     const authority = authorityFromRequest(request);
     const clientId = clientIdFromRequest(request);
 
-    if (method === 'GET' && url.pathname === '/') {
+    if ((method === 'GET' || method === 'HEAD') && canServeStatic(url.pathname)) {
+      const served = await tryServeStaticApp(url.pathname, response);
+
+      if (served) {
+        return;
+      }
+    }
+
+    if (method === 'GET' && (url.pathname === '/__compat' || url.pathname === '/')) {
       const payload = {
         ok: true,
         service: 'florida-fish-scanner-compat',
         message: 'Compatibility server is running.',
         routes: [
+          '/',
+          '/__compat',
           '/health',
           '/v1/capabilities',
           '/v1/grants/mint',

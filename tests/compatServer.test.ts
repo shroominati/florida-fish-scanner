@@ -45,6 +45,22 @@ describe('compatibility server', () => {
     expect(response.headers.get('content-type')).toContain('text/html');
 
     const payload = await response.text();
+    expect(payload.toLowerCase()).toContain('<html');
+  });
+
+  test('keeps the compatibility console available at /__compat', async () => {
+    const { baseUrl } = await startServer();
+
+    const response = await fetch(`${baseUrl}/__compat`, {
+      headers: {
+        accept: 'text/html'
+      }
+    });
+
+    expect(response.status).toBe(200);
+    expect(response.headers.get('content-type')).toContain('text/html');
+
+    const payload = await response.text();
     expect(payload).toContain('Florida Fish Scanner Compat');
     expect(payload).toContain('/v1/invoke');
   });

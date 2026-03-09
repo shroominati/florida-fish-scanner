@@ -21,6 +21,7 @@ Why this stack:
 ## What Now Works
 
 - Live still-image scan assistant with Expo camera preview, capture, framing guide, and GPS refresh
+- Browser-based fish photo upload / mobile-browser camera capture in the exported web app
 - Structured scan analysis with fish detected / no fish detected states
 - Quality guidance for brightness, blur, angle, and framing
 - Pluggable detector/classifier interfaces with a still-image pipeline abstraction
@@ -147,12 +148,27 @@ Useful commands:
 npm run ios
 npm run android
 npm run web
+npm run build:web
 npm run compat:server
 npm run typecheck
 npm run test
 npx tsx scripts/validate-rules.ts
 npx tsx scripts/build-rule-bundle.ts
 ```
+
+## Deploying The App
+
+If you deploy this project as a Render web service:
+
+- Build command: `npm install && npm run build:web`
+- Start command: `npm run compat:server`
+
+Behavior:
+
+- `/` serves the exported Florida Fish Scanner web app
+- `/__compat` serves the embedded compatibility console
+- `/v1/*` serves the compatibility/testing API routes
+- `/health` returns a basic server health response
 
 ## Embedded Compatibility Server
 
@@ -175,6 +191,8 @@ Start it with:
 cd /Users/alfredmunoz/Documents/Playground/florida-fish-scanner
 npm run compat:server
 ```
+
+If `dist/index.html` is missing, `npm run compat:server` now exports the Expo web app automatically before starting the server.
 
 By default it listens on `http://127.0.0.1:4318`.
 
@@ -237,14 +255,16 @@ curl -s http://127.0.0.1:4318/v1/history
 ### Scan flow
 
 1. Run `npm start`.
-2. Open the app in Expo Go or a simulator.
+2. Open the app in Expo Go, a simulator, or the exported web build.
 3. Tap `Open Camera`.
-4. Capture a fish photo or use `Demo Fish` / `Demo No Fish`.
-5. Confirm that the scan screen shows:
+4. On native, capture a fish photo.
+5. On web, use `Use Phone Camera` or `Upload Photo`.
+6. You can still use `Demo Fish` / `Demo No Fish` for regression checks.
+7. Confirm that the scan screen shows:
    - fish detected or no fish detected
    - brightness / blur / angle / framing quality states
    - guidance text
-6. Tap `Continue to Species Review` or `Continue with Manual Review`.
+8. Tap `Continue to Species Review` or `Continue with Manual Review`.
 
 ### Measurement flow
 
