@@ -113,55 +113,493 @@ export function createCompatibilityServer(state = createCompatibilityState()) {
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Florida Fish Scanner Compat</title>
     <style>
+      :root {
+        color-scheme: dark;
+        --bg: #07141b;
+        --panel: #0e222c;
+        --panel-border: #173845;
+        --text: #edf7fb;
+        --muted: #a5c0cb;
+        --accent: #4fd1c5;
+        --accent-2: #7dd3fc;
+        --danger: #ff8a8a;
+        --warning: #ffd36e;
+      }
       body {
         margin: 0;
-        padding: 24px;
         font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-        background: #08131a;
-        color: #f2f7f9;
+        background: radial-gradient(circle at top, #0c2a36 0%, var(--bg) 58%);
+        color: var(--text);
       }
       main {
-        max-width: 760px;
+        max-width: 1200px;
         margin: 0 auto;
+        padding: 24px;
       }
       h1 {
-        margin-bottom: 8px;
+        margin: 0 0 8px;
+        font-size: 42px;
+        line-height: 1.05;
       }
       p {
-        color: #c8d6dd;
+        color: var(--muted);
+        line-height: 1.5;
+      }
+      h2 {
+        margin: 0 0 12px;
+        font-size: 18px;
+      }
+      .hero {
+        display: flex;
+        justify-content: space-between;
+        gap: 24px;
+        align-items: flex-start;
+        margin-bottom: 24px;
+      }
+      .hero-copy {
+        max-width: 720px;
+      }
+      .status {
+        min-width: 220px;
+        background: rgba(79, 209, 197, 0.12);
+        border: 1px solid rgba(79, 209, 197, 0.3);
+        border-radius: 16px;
+        padding: 16px;
+      }
+      .status strong {
+        display: block;
+        margin-bottom: 6px;
+      }
+      .grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+        gap: 16px;
+      }
+      .card {
+        background: rgba(14, 34, 44, 0.94);
+        border: 1px solid var(--panel-border);
+        border-radius: 18px;
+        padding: 18px;
+        box-shadow: 0 20px 50px rgba(0, 0, 0, 0.18);
+      }
+      .card.wide {
+        grid-column: 1 / -1;
+      }
+      .form-grid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 12px;
+      }
+      .form-grid.full {
+        grid-template-columns: 1fr;
+      }
+      label {
+        display: block;
+        font-size: 13px;
+        margin-bottom: 6px;
+        color: var(--muted);
+      }
+      input,
+      select,
+      textarea,
+      button {
+        width: 100%;
+        box-sizing: border-box;
+        border-radius: 12px;
+        border: 1px solid #295162;
+        background: #0a1a22;
+        color: var(--text);
+        padding: 11px 12px;
+        font: inherit;
+      }
+      textarea {
+        min-height: 108px;
+        resize: vertical;
+      }
+      button {
+        width: auto;
+        border: 0;
+        background: linear-gradient(135deg, var(--accent), var(--accent-2));
+        color: #03222b;
+        font-weight: 700;
+        cursor: pointer;
+      }
+      button.secondary {
+        background: #163847;
+        color: var(--text);
+        border: 1px solid #295162;
+      }
+      .button-row {
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+        margin-top: 12px;
+      }
+      .pill-row {
+        display: flex;
+        gap: 8px;
+        flex-wrap: wrap;
+        margin: 12px 0 0;
+      }
+      .pill {
+        border-radius: 999px;
+        background: #12303c;
+        border: 1px solid #214b5c;
+        color: var(--text);
+        padding: 6px 10px;
+        font-size: 12px;
+      }
+      .pill.warn {
+        color: #1f1700;
+        background: var(--warning);
+        border-color: transparent;
+      }
+      .pill.bad {
+        color: #2d0202;
+        background: var(--danger);
+        border-color: transparent;
       }
       code {
         background: #10232d;
         padding: 2px 6px;
         border-radius: 6px;
       }
-      ul {
-        padding-left: 20px;
+      pre {
+        margin: 0;
+        padding: 14px;
+        background: #08151c;
+        border: 1px solid #163644;
+        border-radius: 14px;
+        overflow: auto;
+        white-space: pre-wrap;
+        word-break: break-word;
       }
-      a {
-        color: #7dd3fc;
+      .list {
+        display: grid;
+        gap: 10px;
+      }
+      .list-item {
+        background: #0a1a22;
+        border: 1px solid #153542;
+        border-radius: 12px;
+        padding: 12px;
+      }
+      .list-item strong {
+        display: block;
+        margin-bottom: 4px;
+      }
+      .muted {
+        color: var(--muted);
+      }
+      .mono {
+        font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+      }
+      .footer {
+        margin-top: 16px;
+        font-size: 13px;
+        color: var(--muted);
+      }
+      @media (max-width: 820px) {
+        .hero {
+          flex-direction: column;
+        }
+        .form-grid {
+          grid-template-columns: 1fr;
+        }
       }
     </style>
   </head>
   <body>
     <main>
-      <h1>Florida Fish Scanner Compat</h1>
-      <p>Compatibility server is running.</p>
-      <p>Available routes:</p>
-      <ul>
-        <li><a href="/health"><code>/health</code></a></li>
-        <li><a href="/v1/capabilities"><code>/v1/capabilities</code></a></li>
-        <li><a href="/v1/audit"><code>/v1/audit</code></a></li>
-        <li><a href="/v1/history"><code>/v1/history</code></a></li>
-      </ul>
-      <p>POST endpoints:</p>
-      <ul>
-        <li><code>/v1/grants/mint</code></li>
-        <li><code>/v1/resume/web/grants/mint</code></li>
-        <li><code>/v1/resume/telegram/grants/mint</code></li>
-        <li><code>/v1/invoke</code></li>
-      </ul>
+      <section class="hero">
+        <div class="hero-copy">
+          <h1>Florida Fish Scanner Compat</h1>
+          <p>This is an interactive compatibility test console for the embedded server. You can inspect capabilities, mint one-time grants, invoke approval-bound endpoints, and review audit/history without dropping to the terminal.</p>
+          <div class="pill-row">
+            <span class="pill">/v1/invoke stays enabled</span>
+            <span class="pill">one-time grants</span>
+            <span class="pill">audit + history</span>
+            <span class="pill warn">repo-local bypass only</span>
+          </div>
+        </div>
+        <aside class="status">
+          <strong id="health-status">Checking health...</strong>
+          <span class="muted mono" id="base-url"></span>
+        </aside>
+      </section>
+
+      <section class="grid">
+        <article class="card">
+          <h2>Capabilities</h2>
+          <p>Approval-bound capabilities require a one-time grant unless the caller is an explicit repo-local bypass caller.</p>
+          <div id="capabilities-list" class="list"></div>
+          <div class="button-row">
+            <button class="secondary" type="button" id="refresh-capabilities">Refresh capabilities</button>
+          </div>
+        </article>
+
+        <article class="card">
+          <h2>Mint One-Time Grant</h2>
+          <div class="form-grid">
+            <div>
+              <label for="grant-capability">Capability</label>
+              <select id="grant-capability">
+                <option value="approval.echo">approval.echo</option>
+              </select>
+            </div>
+            <div>
+              <label for="grant-authority">Authority</label>
+              <select id="grant-authority">
+                <option value="external">external</option>
+                <option value="web_resume">web_resume</option>
+                <option value="telegram_resume">telegram_resume</option>
+                <option value="repo_local">repo_local</option>
+              </select>
+            </div>
+            <div>
+              <label for="grant-client-id">Client ID</label>
+              <input id="grant-client-id" value="browser-client" />
+            </div>
+            <div>
+              <label for="grant-flow">Flow label</label>
+              <input id="grant-flow" value="browser-console" />
+            </div>
+          </div>
+          <div class="button-row">
+            <button type="button" id="mint-grant">Mint grant</button>
+            <button class="secondary" type="button" id="mint-web-grant">Mint web resume grant</button>
+            <button class="secondary" type="button" id="mint-telegram-grant">Mint Telegram resume grant</button>
+          </div>
+          <p class="footer">Latest token auto-populates the invoke form.</p>
+        </article>
+
+        <article class="card">
+          <h2>Invoke Capability</h2>
+          <div class="form-grid">
+            <div>
+              <label for="invoke-capability">Capability</label>
+              <select id="invoke-capability">
+                <option value="compat.ping">compat.ping</option>
+                <option value="approval.echo">approval.echo</option>
+              </select>
+            </div>
+            <div>
+              <label for="invoke-authority">Authority</label>
+              <select id="invoke-authority">
+                <option value="external">external</option>
+                <option value="repo_local">repo_local</option>
+                <option value="web_resume">web_resume</option>
+                <option value="telegram_resume">telegram_resume</option>
+              </select>
+            </div>
+            <div>
+              <label for="invoke-client-id">Client ID</label>
+              <input id="invoke-client-id" value="browser-client" />
+            </div>
+            <div>
+              <label for="invoke-grant-token">Grant token</label>
+              <input id="invoke-grant-token" placeholder="Required for approval.echo unless repo-local bypass" />
+            </div>
+          </div>
+          <div class="form-grid full">
+            <div>
+              <label for="invoke-input">Input JSON</label>
+              <textarea id="invoke-input">{
+  "hello": "world"
+}</textarea>
+            </div>
+          </div>
+          <div class="button-row">
+            <button type="button" id="invoke-button">Invoke</button>
+            <button class="secondary" type="button" id="invoke-bypass">Invoke with repo-local bypass</button>
+          </div>
+        </article>
+
+        <article class="card wide">
+          <h2>Response</h2>
+          <pre id="response-output">Waiting for action...</pre>
+        </article>
+
+        <article class="card">
+          <h2>Audit</h2>
+          <p>Every allow/deny decision recorded by the compatibility surface.</p>
+          <div class="button-row">
+            <button class="secondary" type="button" id="refresh-audit">Refresh audit</button>
+          </div>
+          <pre id="audit-output">Loading audit...</pre>
+        </article>
+
+        <article class="card">
+          <h2>History</h2>
+          <p>Readout surface for route outcomes and actor visibility.</p>
+          <div class="button-row">
+            <button class="secondary" type="button" id="refresh-history">Refresh history</button>
+          </div>
+          <pre id="history-output">Loading history...</pre>
+        </article>
+      </section>
     </main>
+    <script>
+      const responseOutput = document.getElementById('response-output');
+      const auditOutput = document.getElementById('audit-output');
+      const historyOutput = document.getElementById('history-output');
+      const capabilitiesList = document.getElementById('capabilities-list');
+      const healthStatus = document.getElementById('health-status');
+      const baseUrl = document.getElementById('base-url');
+      const grantTokenInput = document.getElementById('invoke-grant-token');
+
+      baseUrl.textContent = window.location.origin;
+
+      function pretty(value) {
+        return JSON.stringify(value, null, 2);
+      }
+
+      function setResponse(label, value) {
+        responseOutput.textContent = label + "\\n\\n" + (typeof value === 'string' ? value : pretty(value));
+      }
+
+      async function requestJson(path, options) {
+        const response = await fetch(path, options);
+        const contentType = response.headers.get('content-type') || '';
+        const body = contentType.includes('application/json')
+          ? await response.json()
+          : await response.text();
+        return { ok: response.ok, status: response.status, body };
+      }
+
+      function renderCapabilities(capabilities) {
+        capabilitiesList.innerHTML = '';
+        capabilities.forEach((capability) => {
+          const item = document.createElement('div');
+          item.className = 'list-item';
+          item.innerHTML =
+            '<strong class="mono">' + capability.id + '</strong>' +
+            '<div class="muted">' + capability.description + '</div>' +
+            '<div class="pill-row">' +
+              '<span class="pill ' + (capability.requiresApproval ? 'warn' : '') + '">' +
+                (capability.requiresApproval ? 'approval required' : 'open capability') +
+              '</span>' +
+            '</div>';
+          capabilitiesList.appendChild(item);
+        });
+      }
+
+      async function loadCapabilities() {
+        const result = await requestJson('/v1/capabilities');
+        if (!result.ok) {
+          renderCapabilities([]);
+          setResponse('Failed to load capabilities', result.body);
+          return;
+        }
+        renderCapabilities(result.body.capabilities || []);
+      }
+
+      async function loadHealth() {
+        const result = await requestJson('/health');
+        healthStatus.textContent = result.ok ? 'Healthy' : 'Health check failed';
+      }
+
+      async function loadAudit() {
+        const result = await requestJson('/v1/audit');
+        auditOutput.textContent = pretty(result.body);
+      }
+
+      async function loadHistory() {
+        const result = await requestJson('/v1/history');
+        historyOutput.textContent = pretty(result.body);
+      }
+
+      function parseInputJson() {
+        const raw = document.getElementById('invoke-input').value.trim();
+        if (!raw) {
+          return null;
+        }
+        return JSON.parse(raw);
+      }
+
+      async function mintGrant(kind) {
+        const capability = document.getElementById('grant-capability').value;
+        const authority = document.getElementById('grant-authority').value;
+        const clientId = document.getElementById('grant-client-id').value.trim() || 'browser-client';
+        const flow = document.getElementById('grant-flow').value.trim() || 'browser-console';
+
+        let path = '/v1/grants/mint';
+        let payload = { capability, authority, clientId, flow };
+        if (kind === 'web') {
+          path = '/v1/resume/web/grants/mint';
+          payload = { capability, clientId };
+        }
+        if (kind === 'telegram') {
+          path = '/v1/resume/telegram/grants/mint';
+          payload = { capability, clientId };
+        }
+
+        const result = await requestJson(path, {
+          method: 'POST',
+          headers: {
+            'content-type': 'application/json',
+            'x-client-id': clientId,
+            'x-authority': authority
+          },
+          body: JSON.stringify(payload)
+        });
+
+        if (result.ok && result.body.grant && result.body.grant.token) {
+          grantTokenInput.value = result.body.grant.token;
+        }
+
+        setResponse('Grant mint response', { status: result.status, body: result.body });
+        loadAudit();
+        loadHistory();
+      }
+
+      async function invokeCapability(useBypass) {
+        try {
+          const capability = document.getElementById('invoke-capability').value;
+          const authority = document.getElementById('invoke-authority').value;
+          const clientId = document.getElementById('invoke-client-id').value.trim() || 'browser-client';
+          const grantToken = grantTokenInput.value.trim();
+          const input = parseInputJson();
+
+          const headers = {
+            'content-type': 'application/json',
+            'x-client-id': clientId,
+            'x-authority': authority
+          };
+
+          if (useBypass) {
+            headers['x-repo-local-bypass'] = '1';
+          }
+
+          const body = { capability, input, grantToken: grantToken || undefined };
+          const result = await requestJson('/v1/invoke', {
+            method: 'POST',
+            headers,
+            body: JSON.stringify(body)
+          });
+
+          setResponse('Invoke response', { status: result.status, body: result.body });
+          loadAudit();
+          loadHistory();
+        } catch (error) {
+          setResponse('Invoke error', { error: error.message || String(error) });
+        }
+      }
+
+      document.getElementById('refresh-capabilities').addEventListener('click', loadCapabilities);
+      document.getElementById('mint-grant').addEventListener('click', () => mintGrant('default'));
+      document.getElementById('mint-web-grant').addEventListener('click', () => mintGrant('web'));
+      document.getElementById('mint-telegram-grant').addEventListener('click', () => mintGrant('telegram'));
+      document.getElementById('invoke-button').addEventListener('click', () => invokeCapability(false));
+      document.getElementById('invoke-bypass').addEventListener('click', () => invokeCapability(true));
+      document.getElementById('refresh-audit').addEventListener('click', loadAudit);
+      document.getElementById('refresh-history').addEventListener('click', loadHistory);
+
+      loadHealth();
+      loadCapabilities();
+      loadAudit();
+      loadHistory();
+    </script>
   </body>
 </html>`
         );
