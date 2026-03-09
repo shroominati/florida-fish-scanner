@@ -1,0 +1,32 @@
+{
+  "expo": {
+    "name": "Florida Fish Scanner",
+    "slug": "florida-fish-scanner",
+    "version": "0.1.0",
+    "orientation": "portrait",
+    "userInterfaceStyle": "light",
+    "splash": {
+      "resizeMode": "contain",
+      "backgroundColor": "#F5EFE2"
+    },
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.codex.floridafishscanner",
+      "infoPlist": {
+        "NSCameraUsageDescription": "Florida Fish Scanner uses the camera to capture fish photos for species identification and measurement.",
+        "NSLocationWhenInUseUsageDescription": "Florida Fish Scanner uses your location to determine regional fishing regulations."
+      }
+    },
+    "android": {
+      "package": "com.codex.floridafishscanner",
+      "permissions": [
+        "android.permission.CAMERA",
+        "android.permission.ACCESS_COARSE_LOCATION",
+        "android.permission.ACCESS_FINE_LOCATION"
+      ]
+    },
+    "web": {
+      "bundler": "metro"
+    }
+  }
+}

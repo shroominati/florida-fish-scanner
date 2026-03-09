@@ -1,0 +1,92 @@
+[
+  {
+    "id": "fwc_saltwater_index",
+    "label": "FWC Saltwater Recreational Regulations",
+    "authority": "Florida Fish and Wildlife Conservation Commission",
+    "type": "official",
+    "url": "https://myfwc.com/fishing/saltwater/recreational/",
+    "lastVerifiedAt": "2026-03-08",
+    "notes": ["Primary index for Florida state-water recreational saltwater regulations."]
+  },
+  {
+    "id": "fwc_red_drum",
+    "label": "FWC Red Drum",
+    "authority": "Florida Fish and Wildlife Conservation Commission",
+    "type": "official",
+    "url": "https://myfwc.com/fishing/saltwater/recreational/red-drum/",
+    "lastVerifiedAt": "2026-03-08",
+    "notes": ["Regional red drum slot and vessel limits."]
+  },
+  {
+    "id": "fwc_black_drum",
+    "label": "FWC Black Drum",
+    "authority": "Florida Fish and Wildlife Conservation Commission",
+    "type": "official",
+    "url": "https://myfwc.com/fishing/saltwater/recreational/black-drum/",
+    "lastVerifiedAt": "2026-03-08",
+    "notes": ["Statewide slot with one fish allowed over 24 inches."]
+  },
+  {
+    "id": "fwc_snook",
+    "label": "FWC Snook",
+    "authority": "Florida Fish and Wildlife Conservation Commission",
+    "type": "official",
+    "url": "https://myfwc.com/fishing/saltwater/recreational/snook/",
+    "lastVerifiedAt": "2026-03-08",
+    "notes": ["Regional seasonal closures and slot limits. Applies in inland, state, and adjacent federal waters."]
+  },
+  {
+    "id": "fwc_spotted_seatrout",
+    "label": "FWC Spotted Seatrout",
+    "authority": "Florida Fish and Wildlife Conservation Commission",
+    "type": "official",
+    "url": "https://myfwc.com/fishing/saltwater/recreational/spotted-seatrout/",
+    "lastVerifiedAt": "2026-03-08",
+    "notes": ["FWC notes that newly approved rules begin on 2026-04-01."]
+  },
+  {
+    "id": "fwc_permit_pompano",
+    "label": "FWC Permit, Florida Pompano and African Pompano",
+    "authority": "Florida Fish and Wildlife Conservation Commission",
+    "type": "official",
+    "url": "https://myfwc.com/fishing/saltwater/recreational/permit/",
+    "lastVerifiedAt": "2026-03-08",
+    "notes": ["Contains statewide Florida pompano recreational limits and permit special zone rules."]
+  },
+  {
+    "id": "fwc_tarpon",
+    "label": "FWC Tarpon",
+    "authority": "Florida Fish and Wildlife Conservation Commission",
+    "type": "official",
+    "url": "https://myfwc.com/fishing/saltwater/recreational/tarpon/",
+    "lastVerifiedAt": "2026-03-08",
+    "notes": ["Catch-and-release only unless fishing for a record with a purchased tag."]
+  },
+  {
+    "id": "fwc_freshwater_general",
+    "label": "FWC General Statewide Bag and Length Limits",
+    "authority": "Florida Fish and Wildlife Conservation Commission",
+    "type": "official",
+    "url": "https://myfwc.com/fishing/freshwater/regulations/general/",
+    "lastVerifiedAt": "2026-03-08",
+    "notes": ["Statewide black bass and crappie limits."]
+  },
+  {
+    "id": "fwc_fma",
+    "label": "FWC Fish Management Areas",
+    "authority": "Florida Fish and Wildlife Conservation Commission",
+    "type": "official",
+    "url": "https://myfwc.com/fishing/freshwater/regulations/fish-management-areas/",
+    "lastVerifiedAt": "2026-03-08",
+    "notes": ["Used for special waterbody overrides such as Lake Victor."]
+  },
+  {
+    "id": "noaa_south_atlantic",
+    "label": "NOAA Current Fishing Regulations - South Atlantic",
+    "authority": "NOAA Fisheries",
+    "type": "official_federal",
+    "url": "https://www.fisheries.noaa.gov/southeast/rules-regulations/current-fishing-regulations-south-atlantic",
+    "lastVerifiedAt": "2026-03-08",
+    "notes": ["Federal-water support source for future offshore expansion; not fully ingested in the MVP dataset."]
+  }
+]

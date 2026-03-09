@@ -1,0 +1,178 @@
+[
+  {
+    "id": "salt_statewide",
+    "name": "Florida Saltwater Statewide",
+    "waterType": "saltwater",
+    "region": "Florida",
+    "priority": 1,
+    "parentZoneId": null,
+    "geometryType": "bbox",
+    "bounds": {
+      "minLat": 24.2,
+      "maxLat": 31.2,
+      "minLng": -87.8,
+      "maxLng": -79.6
+    },
+    "notes": ["Statewide fallback for saltwater rules."]
+  },
+  {
+    "id": "salt_ne_atlantic",
+    "name": "Northeast Florida Saltwater",
+    "waterType": "saltwater",
+    "region": "Northeast",
+    "priority": 4,
+    "parentZoneId": "salt_statewide",
+    "geometryType": "bbox",
+    "bounds": {
+      "minLat": 29.0,
+      "maxLat": 31.1,
+      "minLng": -81.75,
+      "maxLng": -80.75
+    },
+    "notes": ["Approximate coastal band for Nassau through Volusia / New Smyrna area."]
+  },
+  {
+    "id": "salt_southeast_atlantic",
+    "name": "Southeast Florida Saltwater",
+    "waterType": "saltwater",
+    "region": "Southeast",
+    "priority": 4,
+    "parentZoneId": "salt_statewide",
+    "geometryType": "bbox",
+    "bounds": {
+      "minLat": 25.25,
+      "maxLat": 26.85,
+      "minLng": -80.55,
+      "maxLng": -79.8
+    },
+    "notes": ["Approximate coastal band for Miami-Dade through Martin / Palm Beach."]
+  },
+  {
+    "id": "salt_central_east",
+    "name": "Central East Florida Saltwater",
+    "waterType": "saltwater",
+    "region": "Central East",
+    "priority": 4,
+    "parentZoneId": "salt_statewide",
+    "geometryType": "bbox",
+    "bounds": {
+      "minLat": 26.6,
+      "maxLat": 29.05,
+      "minLng": -80.75,
+      "maxLng": -79.85
+    },
+    "notes": ["Approximate coastal band for Palm Beach through Volusia."]
+  },
+  {
+    "id": "salt_southwest_gulf",
+    "name": "Southwest Florida Saltwater",
+    "waterType": "saltwater",
+    "region": "Southwest",
+    "priority": 4,
+    "parentZoneId": "salt_statewide",
+    "geometryType": "bbox",
+    "bounds": {
+      "minLat": 24.4,
+      "maxLat": 26.28,
+      "minLng": -83.3,
+      "maxLng": -80.5
+    },
+    "notes": ["Approximate Gulf/Keys band for Southwest snook and red drum."]
+  },
+  {
+    "id": "salt_charlotte_harbor",
+    "name": "Charlotte Harbor Saltwater",
+    "waterType": "saltwater",
+    "region": "Charlotte Harbor",
+    "priority": 5,
+    "parentZoneId": "salt_statewide",
+    "geometryType": "bbox",
+    "bounds": {
+      "minLat": 26.3,
+      "maxLat": 27.25,
+      "minLng": -82.7,
+      "maxLng": -81.7
+    },
+    "notes": ["Approximate Charlotte Harbor management zone."]
+  },
+  {
+    "id": "salt_western_panhandle",
+    "name": "Western Panhandle Saltwater",
+    "waterType": "saltwater",
+    "region": "Western Panhandle",
+    "priority": 4,
+    "parentZoneId": "salt_statewide",
+    "geometryType": "bbox",
+    "bounds": {
+      "minLat": 29.7,
+      "maxLat": 31.0,
+      "minLng": -87.8,
+      "maxLng": -85.22
+    },
+    "notes": ["Approximate spotted seatrout western panhandle region."]
+  },
+  {
+    "id": "salt_big_bend",
+    "name": "Big Bend Saltwater",
+    "waterType": "saltwater",
+    "region": "Big Bend",
+    "priority": 4,
+    "parentZoneId": "salt_statewide",
+    "geometryType": "bbox",
+    "bounds": {
+      "minLat": 27.6,
+      "maxLat": 30.3,
+      "minLng": -85.22,
+      "maxLng": -82.65
+    },
+    "notes": ["Approximate big bend spotted seatrout region."]
+  },
+  {
+    "id": "salt_south",
+    "name": "South Florida Saltwater",
+    "waterType": "saltwater",
+    "region": "South",
+    "priority": 4,
+    "parentZoneId": "salt_statewide",
+    "geometryType": "bbox",
+    "bounds": {
+      "minLat": 25.2,
+      "maxLat": 28.6,
+      "minLng": -83.0,
+      "maxLng": -79.7
+    },
+    "notes": ["Approximate spotted seatrout south region."]
+  },
+  {
+    "id": "freshwater_statewide",
+    "name": "Florida Freshwater Statewide",
+    "waterType": "freshwater",
+    "region": "Florida",
+    "priority": 1,
+    "parentZoneId": null,
+    "geometryType": "bbox",
+    "bounds": {
+      "minLat": 24.2,
+      "maxLat": 31.2,
+      "minLng": -87.8,
+      "maxLng": -79.6
+    },
+    "notes": ["Statewide fallback for inland freshwater rules."]
+  },
+  {
+    "id": "lake_victor_fma",
+    "name": "Lake Victor FMA",
+    "waterType": "freshwater",
+    "region": "Holmes County Special Area",
+    "priority": 10,
+    "parentZoneId": "freshwater_statewide",
+    "geometryType": "bbox",
+    "bounds": {
+      "minLat": 30.88,
+      "maxLat": 30.93,
+      "minLng": -85.95,
+      "maxLng": -85.88
+    },
+    "notes": ["Approximate Lake Victor Fish Management Area bounds for demo and test use."]
+  }
+]

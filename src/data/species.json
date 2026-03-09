@@ -1,0 +1,82 @@
+[
+  {
+    "id": "red_drum",
+    "commonName": "Red Drum",
+    "scientificName": "Sciaenops ocellatus",
+    "aliases": ["Redfish", "Channel Bass", "Red Drum"],
+    "waterTypes": ["saltwater"],
+    "confusionSpeciesIds": ["black_drum", "spotted_seatrout"],
+    "mvpPriority": 1,
+    "notes": ["Common inshore target species with region-based management."]
+  },
+  {
+    "id": "black_drum",
+    "commonName": "Black Drum",
+    "scientificName": "Pogonias cromis",
+    "aliases": ["Black Drum"],
+    "waterTypes": ["saltwater"],
+    "confusionSpeciesIds": ["red_drum"],
+    "mvpPriority": 2,
+    "notes": ["Large adults can be misread as red drum in low-light photos."]
+  },
+  {
+    "id": "snook_common",
+    "commonName": "Common Snook",
+    "scientificName": "Centropomus undecimalis",
+    "aliases": ["Snook", "Linesider", "Common Snook"],
+    "waterTypes": ["saltwater", "freshwater"],
+    "confusionSpeciesIds": ["tarpon", "spotted_seatrout"],
+    "mvpPriority": 3,
+    "notes": ["Managed by region with seasonal closures and slot limits."]
+  },
+  {
+    "id": "spotted_seatrout",
+    "commonName": "Spotted Seatrout",
+    "scientificName": "Cynoscion nebulosus",
+    "aliases": ["Speckled Trout", "Speck", "Spotted Seatrout"],
+    "waterTypes": ["saltwater"],
+    "confusionSpeciesIds": ["red_drum", "snook_common"],
+    "mvpPriority": 4,
+    "notes": ["New rules approved in February 2026 start on April 1, 2026."]
+  },
+  {
+    "id": "florida_pompano",
+    "commonName": "Florida Pompano",
+    "scientificName": "Trachinotus carolinus",
+    "aliases": ["Pompano", "Florida Pompano"],
+    "waterTypes": ["saltwater"],
+    "confusionSpeciesIds": ["permit"],
+    "mvpPriority": 5,
+    "notes": ["Measured in fork length by FWC; this MVP stores the value in the same normalized length field."]
+  },
+  {
+    "id": "tarpon",
+    "commonName": "Tarpon",
+    "scientificName": "Megalops atlanticus",
+    "aliases": ["Tarpon", "Silver King"],
+    "waterTypes": ["saltwater", "freshwater"],
+    "confusionSpeciesIds": ["snook_common"],
+    "mvpPriority": 6,
+    "notes": ["Catch-and-release only unless fishing for a record with a tarpon tag."]
+  },
+  {
+    "id": "largemouth_bass",
+    "commonName": "Largemouth Bass",
+    "scientificName": "Micropterus nigricans",
+    "aliases": ["Largemouth Bass", "Florida Bass", "Black Bass"],
+    "waterTypes": ["freshwater"],
+    "confusionSpeciesIds": ["black_crappie"],
+    "mvpPriority": 7,
+    "notes": ["Florida bass and largemouth bass are regulated together in Florida."]
+  },
+  {
+    "id": "black_crappie",
+    "commonName": "Black Crappie",
+    "scientificName": "Pomoxis nigromaculatus",
+    "aliases": ["Black Crappie", "Crappie", "Speckled Perch", "Specks"],
+    "waterTypes": ["freshwater"],
+    "confusionSpeciesIds": ["largemouth_bass"],
+    "mvpPriority": 8,
+    "notes": ["Statewide daily bag limit is 25 crappie in general regulations."]
+  }
+]

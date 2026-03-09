@@ -1,0 +1,29 @@
+[
+  {
+    "id": "2026.03.08-mvp",
+    "label": "Curated Florida rules snapshot",
+    "publishedAt": "2026-03-08",
+    "freshnessWindowDays": 120,
+    "staleWarningThresholdDays": 90,
+    "effectiveStart": "2026-03-08",
+    "effectiveEnd": null,
+    "updatedAt": "2026-03-08",
+    "sourceIds": [
+      "fwc_saltwater_index",
+      "fwc_red_drum",
+      "fwc_black_drum",
+      "fwc_snook",
+      "fwc_spotted_seatrout",
+      "fwc_permit_pompano",
+      "fwc_tarpon",
+      "fwc_freshwater_general",
+      "fwc_fma",
+      "noaa_south_atlantic"
+    ],
+    "notes": [
+      "This starter bundle intentionally covers a Florida MVP subset.",
+      "Spotted seatrout records are future-dated to 2026-04-01 because FWC says those rules begin on that date.",
+      "Federal-water support is schema-ready but not exhaustive."
+    ]
+  }
+]
